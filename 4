@@ -1,0 +1,401 @@
+#include <stdio.h>
+#includestdlib.h>
+#include <string.h>
+
+#define MAX_STUDENT 100 // 最大学生数量
+
+// 学生信息结构体
+typedef struct {
+    char id[20]; // 学号
+    char name[20]; // 姓名
+    char gender[10]; // 性别
+    char birth[20]; // 出生年月日
+    char address[50]; // 地址
+    char phone[20]; // 手机号
+    char email[50]; // 邮箱
+    int math_score; // 高数成绩
+    int c_score; // C语言成绩
+    int eng_score; // 英语成绩
+} Student;
+
+// 学生数组
+Student students[MAX_STUDENT];
+int student_count = 0;
+
+// 显示菜单
+void show_menu() {
+    printf("1. 录入学生信息\n");
+    printf("2. 显示学生信息\n");
+    printf("3. 查询学生信息\n");
+    printf("4. 排序学生信息\n");
+    printf("5. 统计学生信息\n");
+    printf("6. 删除学生信息\n");
+    printf("7. 新增学生信息\n");
+    printf("8. 修改学生信息\n");
+    printf("9. 保存学生信息\n");
+    printf("10. 载入学生信息\n");
+    printf("0. 退出程序\n");
+}
+
+// 录入学生信息
+void add_student() {
+    if (student_count >= MAX_STUDENT) {
+        printf("学生数量已达到上限，无法继续添加！\n");
+        return;
+    }
+
+    Student student;
+    printf("请输入学生信息：\n");
+    printf("学号：");
+    scanf("%s", student.id);
+    printf("姓名：");
+    scanf("%s", student.name);
+    printf("性别：");
+    scanf("%s", student.gender);
+    printf("出生年月日：");
+    scanf("%s", student.birth);
+    printf("地址：");
+    scanf("%s", student.address);
+    printf("手机号：");
+    scanf("%s", student.phone);
+    printf("邮箱：");
+    scanf("%s", student);
+    printf("高数成绩：");
+    scanf("%d", &student.math_score);
+    printf("C语言成绩：");
+    scanf("%d", &student.c_score);
+    printf("英语成绩：");
+    scanf("%d", &student.eng_score);
+
+    students[student_count++] = student;
+    printf("学生信息录入成功！\n");
+}
+
+// 显示学生信息
+void show_students() {
+    if (student_count == 0) {
+        printf("当前没有学生信息！\n");
+        return;
+    }
+
+    printf("学号\t姓名\t性别\t出生年月日\t地址\t手机号\t邮箱\t高数成绩\tC语言成绩\t英语成绩\n");
+    for (int i = 0; i student_count; i++) {
+        Student student = students[i];
+        printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%d\t%d\n", student.id, student.name, student.gender, student.birth, student.address, student.phone, student.email, student.math_score, student.c_score, student.eng_score);
+    }
+}
+
+// 查询学生信息
+void search_student() {
+    if (student_count == 0) {
+        printf("当前没有学生信息！\n");
+        return;
+    }
+
+    char id[20];
+    printf("请输入要查询的学生学号：");
+    scanf("%s", id);
+
+    for (int i = 0; i < student_count; i++) {
+        Student student = students[i];
+        if (strcmp(student.id, id) == 0) {
+            printf("学号\t姓名\t性别\t出生年月日\t地址\t手机号\t邮箱\t高数成绩\tC语言成绩\t英语成绩\n");
+            printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%d\t%d\t%d\n", student.id, student.name, student.gender, student.birth, student.address, student.phone, student.email, student.math_score, student.c_score, student.eng_score);
+            return;
+        }
+    }
+
+    printf("未找到该学生信息！\n");
+}
+
+// 排序学生信息
+void sort_students() {
+    if (student_count == 0) {
+        printf("当前没有学生信息！\n");
+        return;
+    }
+
+    int sort_type;
+    printf("请选择排序方式（1. 按学号升序 2. 按学号降序 3. 按总成绩升序 4. 按总成绩降序）：    scanf("%d", &sort_type);
+
+    switch (sort_type) {
+        case 1:
+            for (int i = 0; i < student_count - 1; i++) {
+                for (int j = i + 1; j < student_count; j++) {
+                    if (strcmp(students[i].id, students[j].id) > 0) {
+                        Student temp = students[i];
+                        students[i] = students[j];
+                        students[j] = temp;
+                    }
+                }
+            }
+            printf("按学号升序排序完成！\n");
+            break;
+        case 2:
+            for (int i = 0; i < student_count - 1; i++) {
+                for (int j = i + 1; j student_count; j++) {
+                    if (strcmp(students[i].id, students[j].id) < 0) {
+                        Student temp = students];
+                        students[i] = students[j];
+                        students[j] = temp;
+                    }
+                }
+            }
+            printf("按学号降序排序完成！\n");
+            break;
+        case 3:
+            for (int i = 0; i student_count - 1; i++) {
+                for (int j = i + 1; j student_count; j++) {
+                    int score1 = students[i].math_score + students[i].c_score + students[i].eng_score;
+                    int score2 = students[j].math_score + students[j].c_score + students[j].eng_score;
+                    if (score1 > score2) {
+                        Student temp = students[i];
+                        students[i] = students[j];
+                        students[j] = temp;
+                    }
+                }
+            }
+            printf("按总成绩升序排序完成！\n");
+            break;
+        case 4:
+            for (int i = 0; i student_count - 1; i++) {
+                for (int j = i + 1; j student_count; j++) {
+                    int score1 = students[i].math_score + students[i].c_score + students[i].eng_score;
+                    int score2 = students[j].math_score + students[j].c_score + students[j].eng_score;
+                    if (score1 < score2) {
+                        Student temp = students[i];
+                        students[i] = students[j];
+                        students[j] = temp;
+                    }
+                }
+            }
+            printf("按总成绩降序排序完成！\n");
+            break;
+        default:
+            printf("无效的排序方式！\n");
+            break;
+    }
+}
+
+// 统计学生信息
+void count_students {
+    if (student_count == 0) {
+        printf("当前没有学生信息！\n");
+        return;
+    }
+
+    int male_count = 0, female_count = 0;
+    int math_sum = 0, c_sum = 0, eng_sum = 0;
+    int total_sum = 0;
+
+    for (int i = 0; i student_count; i++) {
+        Student student = students[i];
+        if (strcmp(student.gender, "男") == 0) {
+            male_count++;
+        } else if (strcmp(student.gender, "女") == 0) {
+            female_count++;
+        }
+        math_sum += student.math_score;
+        c_sum += student.c_score;
+        eng_sum += student.eng_score;
+        total_sum += student.math_score + student.c_score + student.eng_score;
+    }
+
+    printf("男生人数：%d\n", male_count);
+    printf("女生人数：%d\n", female_count);
+    printf("高数平均分：%.2f\n", (float)math_sum / student_count);
+    printf("C语言平均分：%.2f\n", (float)c_sum / student_count);
+    printf("英语平均分：%.2f\n", (float)eng_sum / student_count);
+    printf("总成绩平均分：%.2f\n", (float)total_sum / student_count);
+}
+
+// 删除学生信息
+void delete_student() {
+    if (student_count == 0) {
+        printf("当前没有学生信息！\n");
+        return;
+    }
+
+    char id[20];
+    printf("请输入要删除的学生学号：");
+    scanf("%s", id);
+
+    for (int i = 0; i < student_count; i++) {
+        Student student = students[i];
+        if (strcmp(student.id, id) == 0) {
+            for (int j = i; j student_count - 1; j++) {
+                students[j] = students[j + 1];
+            }
+            student_count--;
+            printf("学生信息删除成功！\n");
+            return;
+        }
+    }
+
+    printf("未找到该学生信息！\n");
+}
+
+// 新增学生信息
+void insert_student() {
+    if (student_count >= MAX_STUDENT) {
+        printf("学生数量已达到上限，无法继续添加！\n");
+        return;
+    }
+
+    char id[20];
+    printf("请输入要插入的学生学号：");
+    scanf("%s", id);
+
+    for (int i = 0; i student_count; i++) {
+        Student student = students[i];
+        if (strcmp(student.id, id) == 0) {
+            printf("该学生信息已存在！\n");
+            return;
+        }
+    }
+
+    Student student;
+    strcpy(student.id, id);
+    printf("请输入学生信息：\n");
+    printf("姓名：");
+    scanf("%s", student.name);
+    printf("性别：");
+    scanf("%s", student.gender);
+    printf("出生年月日：");
+    scanf("%s", student.birth);
+    printf("地址：");
+    scanf("%s", student.address);
+    printf("手机号：");
+    scanf("%s", student.phone);
+    printf("邮箱：");
+    scanf("%s", student.email);
+    printf("高数成绩：");
+    scanf("%d", &student.math_score);
+    printf("C语言成绩：");
+    scanf("%d", &student.c_score);
+    printf("英语成绩：");
+    scanf("%d", &student.eng_score);
+
+    students[student_count++] = student;
+    printf("学生信息插入成功！\n");
+}
+
+// 修改学生信息
+void update_student() {
+    if (student_count == 0) {
+        printf("当前没有学生信息！\n");
+        return;
+    }
+
+    char id[20];
+    printf("请输入要修改的学生学号：");
+    scanf("%s", id);
+
+    for (int i = 0; i < student_count; i++) {
+        Student student = students[i];
+        if (strcmp(student.id, id) == 0) {
+            printf("请输入修改后的学生信息：\n");
+            printf("姓名（原：%s）：", student.name);
+            scanf("%s", student.name);
+           ("性别（原：%s）：", student.gender);
+            scanf("%s", student.gender);
+            printf("出生年月日（原：%s）：", student.birth);
+            scanf("%s", student.birth);
+            printf("地址（原：%s）：", student.address);
+            scanf("%s", student.address);
+            printf("手机号（原：%s）：", student.phone);
+            scanf("%s", student.phone);
+            printf("邮箱（原：%s）：", student.email);
+            scanf("%s", student.email);
+            printf("高数成绩（原：%d）：", student.math_score);
+            scanf("%d", &student.math_score);
+            printf("C语言成绩（原：%d）：", student.c_score);
+            scanf("%d", &student.c_score);
+            printf("英语成绩（原：%d）：", student.eng_score);
+            scanf("%d", &student.eng_score);
+            students[i] = student;
+            printf("学生信息修改成功！\n");
+            return;
+        }
+    }
+
+    printf("未找到该学生信息！\n");
+}
+
+// 保存学生信息
+void save_students() {
+    FILE *fp = fopen("students.dat", "wb");
+    if (fp == NULL) {
+        printf("无法打开文件！\n");
+        return;
+    }
+
+    fwrite(&student_count, sizeof(int), 1, fp);
+    fwrite(students, sizeof(Student), student_count, fp);
+
+    fclose(fp);
+    printf("学生信息保存成功！\n");
+}
+
+// 载入学生信息
+void load_students() {
+    FILE *fp = fopen("students.dat", "rb");
+    if (fp == NULL) {
+        printf("无法打开文件！\n");
+        return;
+    }
+
+    fread(&student_count, sizeof(int), 1, fp);
+    fread(students, sizeof(Student), student_count, fp);
+
+    fclose(fp);
+    printf("学生信息载入成功！\n");
+}
+
+int main() {
+    int choice;
+    while (1) {
+        show_menu();
+        printf("请选择操作：");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                add_student();
+                break;
+            case 2:
+                show_students();
+                break;
+            case 3:
+                search_student();
+                break;
+            case 4:
+                sort_students();
+                break;
+            case 5:
+                count_students();
+                break;
+            case 6:
+                delete_student();
+                break;
+            case 7:
+                insert_student();
+                break;
+            case 8:
+                update_student();
+                break;
+            case 9:
+                save_students();
+                break;
+            case 10:
+                load_students();
+                break;
+            case 0:
+                printf("程序已退出！\n");
+                return 0;
+            default:
+                printf("无效的操作！\n");
+               ;
+        }
+    }
+}
